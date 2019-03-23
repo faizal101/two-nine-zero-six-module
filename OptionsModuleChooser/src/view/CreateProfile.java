@@ -4,6 +4,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
@@ -29,8 +30,8 @@ public class CreateProfile extends GridPane{
 		Label lblPNumber = new Label("P Number: ");
 		Label lblFirstName = new Label("First name: ");
 		Label lblSurname = new Label("Surname: ");
-		Label lblEmail = new Label("Email address");
-		Label lblDate = new Label("Submission date");
+		Label lblEmail = new Label("Email address: ");
+		Label lblDate = new Label("Submission date: ");
 
 		// Create combo box
 		cboCourses = new ComboBox<Course>();
@@ -40,7 +41,7 @@ public class CreateProfile extends GridPane{
 		txtFirstName = new TextField();
 		txtSurname = new TextField();
 		txtEMail = new TextField();
-		txtSubmissionDate = new TextField();
+		DatePicker txtSubmissionDate = new DatePicker();
 
 		// Initialise submit button
 		btnCreateProfile = new Button("Create Profile");
