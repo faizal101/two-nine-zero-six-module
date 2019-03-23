@@ -2,10 +2,10 @@ package view;
 
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
-import javafx.scene.layout.BorderPane;
 
 //You may change this class to extend another type if you wish
 public class OptionsModuleChooserRootPane extends TabPane {
+	
 	private CreateProfile createprofile;
 	private SelectModules selectmodules;
 	private OverviewSelection overviewselection;
@@ -22,4 +22,14 @@ public class OptionsModuleChooserRootPane extends TabPane {
 		Tab t3 = new Tab("Overview Selection", overviewselection);
 		this.getTabs().addAll(t1, t2, t3);
 	}
+	
+	/* These methods provide a public interface for the root pane and allow
+	 * each of the sub-containers to be accessed by the controller. */
+//	public CreateProfile getCreateProfile() {
+//		return createprofile;
+//	}
+//	
+//	public SelectModules getSelectModules() {
+//		return selectmodules;	
+//	}
 }

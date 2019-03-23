@@ -45,7 +45,7 @@ public class CreateProfile extends GridPane{
 		// Initialise submit button
 		btnCreateProfile = new Button("Create Profile");
 
-		//add controls and labels to container
+		// Add controls and labels to container
 		this.add(lblCourses, 0, 0);
 		this.add(cboCourses, 1, 0);
 
@@ -67,5 +67,11 @@ public class CreateProfile extends GridPane{
 		this.add(new HBox(), 0, 6);
 		this.add(btnCreateProfile, 1, 6);
 	}
+
+//	// Method to allow the controller to populate the combobox
+//	public void populateComboBoxWithCourses(Course[] courses) {
+//		cboCourses.getItems().addAll(courses);
+//		cboCourses.getSelectionModel().select(0); // Selects first course by default (Computer Science)
+//	}
 
 }

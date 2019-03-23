@@ -1,31 +1,34 @@
 package controller;
 
-
 import model.Course;
 import model.Delivery;
 import model.Module;
 import model.StudentProfile;
+import view.CreateProfile;
 import view.OptionsModuleChooserRootPane;
-
 
 
 public class OptionsModuleChooserController {
 
 	//fields to be used throughout the class
 	private OptionsModuleChooserRootPane view;
-
 	private StudentProfile model;
+	// not sure if these are needed; one way to find out
+	private CreateProfile createprofile;
 
 	public OptionsModuleChooserController(OptionsModuleChooserRootPane view, StudentProfile model) {
 		//initialise model and view fields
 		this.model = model;
 		this.view = view;
+//		createprofile = view.getCreateProfile();
 
 		//populate combobox in create profile pane, e.g. if profilePane represented your create profile pane you could invoke the line below
-		//profilePane.populateComboBoxWithCourses(setupAndRetrieveCourses());
+		//createprofile.populateComboBoxWithCourses(setupAndRetrieveCourses());
 
 		//attach event handlers to view using private helper method
 		this.attachEventHandlers();	
+		
+		
 
 	}
 
