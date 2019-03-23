@@ -7,7 +7,6 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import model.Course;
@@ -15,7 +14,7 @@ import model.Course;
 public class CreateProfile extends GridPane{
 
 	private ComboBox<Course> cboCourses;
-	private TextField txtPNumber, txtFirstName, txtSurname, txtEMail, txtSubmissionDate;
+	private TextField txtPNumber, txtFirstName, txtSurname, txtEMail;
 	private Button btnCreateProfile;
 
 	public CreateProfile() {
