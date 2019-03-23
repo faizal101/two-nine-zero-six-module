@@ -6,27 +6,31 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.VBox;
 import model.Course;
-// TODO: Change layout so it'll look like the screenshot. GridPane won't work. Maybe use BorderPane and VBoxes?
-public class SelectModules extends GridPane {
+
+public class SelectModules extends BorderPane {
 
 	private ListView<Course> lvUnselectedTerm1, lvUnselectedTerm2, lvSelectedYear, lvSelectedTerm1, lvSelectedTerm2;
 	private TextField txtTerm1Credits, txtTerm2Credits;
 	private Button btnTerm1Add, btnTerm1Remove, btnTerm2Add, btnTerm2Remove, btnReset, btnSubmit;
-	private HBox term1btns, term2btns, miscbtns;
+	private HBox term1btns, term2btns, miscbtns, creditsTerm1, creditsTerm2;
+	private VBox leftArea, rightArea;
+	private GridPane grid;
 	
 	public SelectModules() {
 		//TODO: styling
-		this.setPadding(new Insets(10, 10, 10, 10));
-		this.setVgap(5);
-		this.setHgap(10);
-		this.setAlignment(Pos.CENTER);
+		this.setPadding(new Insets(10, 10, 5, 10));
 
 		// Create labels
 		Label lblUnselectedTerm1 = new Label("Unselected Term 1 Modules: ");
 		Label lblUnselectedTerm2 = new Label("Unselected Term 2 Modules: ");
+		Label lblTerm1 = new Label("Term 1: ");
+		Label lblTerm2 = new Label("Term 2: ");
 		Label lblSelectedYear = new Label("Selected Year Long Modules: ");
 		Label lblSelectedTerm1 = new Label("Selected Term 1 Modules: ");
 		Label lblSelectedTerm2 = new Label("Selected Term 2 Modules: ");
@@ -40,14 +44,19 @@ public class SelectModules extends GridPane {
 		lvSelectedTerm1 = new ListView<>();
 		lvSelectedTerm2 = new ListView<>();
 		
-		lvSelectedYear.setMaxHeight(50);
-		
+		lvSelectedYear.setMinHeight(20);
+		lvSelectedYear.setMaxHeight(100);
 		
 		// Setup text fields
 		txtTerm1Credits = new TextField();
 		txtTerm2Credits = new TextField();
-
-		//TODO: Initialise buttons
+		
+		txtTerm1Credits.setMaxSize(50, 50);
+		txtTerm2Credits.setMaxSize(50, 50);
+		txtTerm1Credits.setEditable(false);
+		txtTerm2Credits.setEditable(false);
+		
+		// Setup buttons
 		btnTerm1Add = new Button("Add");
 		btnTerm2Add = new Button("Add");
 		btnTerm1Remove = new Button("Remove");
@@ -56,40 +65,44 @@ public class SelectModules extends GridPane {
 		btnSubmit = new Button("Submt");
 		
 		term1btns = new HBox(10);
-		term1btns.getChildren().addAll(btnTerm1Add, btnTerm1Remove);
-		
+		term1btns.getChildren().addAll(lblTerm1, btnTerm1Add, btnTerm1Remove);
+		term1btns.setAlignment(Pos.CENTER);
 		term2btns = new HBox(10);
-		term2btns.getChildren().addAll(btnTerm2Add, btnTerm2Remove);
-		
+		term2btns.getChildren().addAll(lblTerm2, btnTerm2Add, btnTerm2Remove);
+		term2btns.setAlignment(Pos.CENTER);
 		miscbtns = new HBox(10);
 		miscbtns.getChildren().addAll(btnReset, btnSubmit);
-
-		//add controls and labels to container
-		this.add(lblUnselectedTerm1, 0, 0);
-		this.add(lvUnselectedTerm1, 0, 1);
-		this.add(term1btns, 0, 2);
+		miscbtns.setAlignment(Pos.CENTER);
 		
-		this.add(lblUnselectedTerm2, 0, 3);
-		this.add(lvUnselectedTerm2, 0, 4);
-		this.add(term2btns, 0, 5);
-
-		this.add(lblSelectedYear, 1, 0);
-		this.add(lvSelectedYear, 1, 1);
-
-		this.add(lblSelectedTerm1, 1, 2);
-		this.add(lvSelectedTerm1, 1, 3);
-
-		this.add(lblSelectedTerm2, 1, 4);
-		this.add(lvSelectedTerm2, 1, 5);
-
-		this.add(lblTerm1Credits, 0, 6);
-		this.add(txtTerm1Credits, 0, 7);
-
-		this.add(lblTerm2Credits, 0, 8);
-		this.add(txtTerm2Credits, 0, 9);
+		creditsTerm1 = new HBox(10);
+		creditsTerm1.getChildren().addAll(lblTerm1Credits, txtTerm1Credits);
+		creditsTerm1.setAlignment(Pos.CENTER);
+		creditsTerm2 = new HBox(10);
+		creditsTerm2.getChildren().addAll(lblTerm2Credits, txtTerm2Credits);
+		creditsTerm2.setAlignment(Pos.CENTER);
 		
-		this.add(miscbtns, 0, 10);
-		this.add(new HBox(btnReset,btnSubmit), 0, 10);
+		// Setup nodes to add to the left half
+		leftArea = new VBox();
+		leftArea.getChildren().addAll(lblUnselectedTerm1, lvUnselectedTerm1, term1btns, lblUnselectedTerm2, lvUnselectedTerm2, term2btns, creditsTerm1);
+		leftArea.setPadding(new Insets(20, 20, 20, 20));
+		leftArea.setSpacing(20);
+		
+		// Setup nodes to add to the right half
+		rightArea = new VBox();
+		rightArea.getChildren().addAll(lblSelectedYear, lvSelectedYear, lblSelectedTerm1, lvSelectedTerm1, lblSelectedTerm2, lvSelectedTerm2, creditsTerm2);
+		rightArea.setPadding(new Insets (20, 20, 20 ,20));
+		rightArea.setSpacing(20);
+		
+		grid = new GridPane();
+		grid.add(leftArea, 0, 0);
+		grid.add(rightArea, 1, 0);
+		GridPane.setHgrow(leftArea, Priority.ALWAYS);
+		GridPane.setVgrow(leftArea, Priority.ALWAYS);
+		GridPane.setHgrow(rightArea, Priority.ALWAYS);
+		GridPane.setVgrow(rightArea, Priority.ALWAYS);
+		
+		this.setCenter(grid);
+		this.setBottom(miscbtns);
 		
 	}
 }

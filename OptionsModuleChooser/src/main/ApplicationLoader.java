@@ -26,7 +26,8 @@ public class ApplicationLoader extends Application {
 		//be able to be maximised to fill the screen and ideally behave sensibly when resized
 		stage.setMinWidth(530); 
 		stage.setMinHeight(500);
-		
+		stage.setWidth(530); 
+		stage.setHeight(500);
 		
 		stage.setTitle("Final Year Module Chooser Tool");
 		stage.setScene(new Scene(view));
