@@ -68,10 +68,10 @@ public class CreateProfile extends GridPane{
 		this.add(btnCreateProfile, 1, 6);
 	}
 
-//	// Method to allow the controller to populate the combobox
-//	public void populateComboBoxWithCourses(Course[] courses) {
-//		cboCourses.getItems().addAll(courses);
-//		cboCourses.getSelectionModel().select(0); // Selects first course by default (Computer Science)
-//	}
+	// Method to allow the controller to populate the combo box
+	public void populateComboBoxWithCourses(Course[] courses) {
+		cboCourses.getItems().addAll(courses);
+		cboCourses.getSelectionModel().select(0); // Selects first course by default (Computer Science)
+	}
 
 }
