@@ -1,8 +1,13 @@
 package controller;
 
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import model.Course;
 import model.Delivery;
 import model.Module;
+import model.Name;
 import model.StudentProfile;
 import view.CreateProfile;
 import view.OptionsModuleChooserRootPane;
@@ -32,9 +37,28 @@ public class OptionsModuleChooserController {
 	}
 
 	private void attachEventHandlers() {
-		
+		createprofile.addCreateProfileHandler(new SubmitHandler());
 	}
 
+	private class SubmitHandler implements EventHandler<ActionEvent> {
+
+		@Override
+		public void handle(ActionEvent event) {
+			// TODO More validations such as email, current date etc.
+			Name n = createprofile.getNameInput();
+			// Validation to check if name is empty
+			if (n.getFirstName().equals("") || n.getFamilyName().equals("")) {
+				alertDialogBuilder(AlertType.ERROR, "Error Dialog", null, "You need to input both a first and surname!");
+			} else {
+				model.setStudentName(new Name(n.getFirstName(), n.getFamilyName()));
+				model.setPnumber(createprofile.getPNumber());
+				model.setEmail(createprofile.getEMail());
+				model.setSubmissionDate(createprofile.getDate());
+				System.out.println("It probably worked");
+			}
+		}
+		
+	}
 	                
 	private Course[] setupAndRetrieveCourses() {
 		Module imat3423 = new Module("IMAT3423", "Systems Building: Methods", 15, true, Delivery.TERM_1);
@@ -100,4 +124,13 @@ public class OptionsModuleChooserController {
 		return courses;
 	}
 
+
+	//helper method to build dialogs
+		private void alertDialogBuilder(AlertType type, String title, String header, String content) {
+			Alert alert = new Alert(type);
+			alert.setTitle(title);
+			alert.setHeaderText(header);
+			alert.setContentText(content);
+			alert.showAndWait();
+		}
 }

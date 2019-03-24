@@ -1,5 +1,9 @@
 package view;
 
+import java.time.LocalDate;
+
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -10,12 +14,16 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import model.Course;
+import model.Name;
 
 public class CreateProfile extends GridPane{
 
 	private ComboBox<Course> cboCourses;
 	private TextField txtPNumber, txtFirstName, txtSurname, txtEMail;
 	private Button btnCreateProfile;
+	private DatePicker txtSubmissionDate;
+	private CreateProfile profile;
+	//CreateProfile profile = new CreateProfile();
 
 	public CreateProfile() {
 		//TODO: styling
@@ -40,7 +48,7 @@ public class CreateProfile extends GridPane{
 		txtFirstName = new TextField();
 		txtSurname = new TextField();
 		txtEMail = new TextField();
-		DatePicker txtSubmissionDate = new DatePicker();
+		txtSubmissionDate = new DatePicker();
 
 		// Initialise submit button
 		btnCreateProfile = new Button("Create Profile");
@@ -73,5 +81,32 @@ public class CreateProfile extends GridPane{
 		cboCourses.getItems().addAll(courses);
 		cboCourses.getSelectionModel().select(0); // Selects first course by default (Computer Science)
 	}
+	
+	public CreateProfile getProfile() {
+		return profile;
+	}
+	
+	public Name getNameInput() {
+		String fName = txtFirstName.getText();
+		String sName = txtSurname.getText();
+		return new Name(fName, sName);
+	}
+	
+	public String getPNumber() {
+		return txtPNumber.getText();
+	}
+	
+	public String getEMail() {
+		return txtEMail.getText();
+	}
+	public LocalDate getDate() {
+		return txtSubmissionDate.getValue();
+	}
+	
+	public void addCreateProfileHandler(EventHandler<ActionEvent> handler) {
+		btnCreateProfile.setOnAction(handler);
+	}
+
+
 
 }
