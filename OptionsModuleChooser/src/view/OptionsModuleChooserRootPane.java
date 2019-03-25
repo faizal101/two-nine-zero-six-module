@@ -13,10 +13,12 @@ public class OptionsModuleChooserRootPane extends TabPane {
 
 
 	public OptionsModuleChooserRootPane() {
+		
 		this.setTabClosingPolicy(TabClosingPolicy.UNAVAILABLE);
 		createprofile = new CreateProfile();
 		selectmodules = new SelectModules();
 		overviewselection = new OverviewSelection();
+
 		Tab t1 = new Tab("Create Profile", createprofile);
 		Tab t2 = new Tab("Select Modules", selectmodules);
 		Tab t3 = new Tab("Overview Selection", overviewselection);

@@ -15,6 +15,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import model.Course;
 import model.Name;
+import model.StudentProfile;
 
 public class CreateProfile extends GridPane{
 
@@ -23,7 +24,6 @@ public class CreateProfile extends GridPane{
 	private Button btnCreateProfile;
 	private DatePicker txtSubmissionDate;
 	private CreateProfile profile;
-	//CreateProfile profile = new CreateProfile();
 
 	public CreateProfile() {
 		//TODO: styling
@@ -74,6 +74,7 @@ public class CreateProfile extends GridPane{
 
 		this.add(new HBox(), 0, 6);
 		this.add(btnCreateProfile, 1, 6);
+		
 	}
 
 	// Method to allow the controller to populate the combo box
@@ -84,6 +85,17 @@ public class CreateProfile extends GridPane{
 	
 	public CreateProfile getProfile() {
 		return profile;
+	}
+	
+	public StudentProfile getStudentProfile() {
+		StudentProfile studentprofile = new StudentProfile();
+		Course course = cboCourses.getSelectionModel().getSelectedItem();
+		studentprofile.setCourseOfStudy(course);
+		studentprofile.setStudentName(getNameInput());
+		studentprofile.setPnumber(getPNumber());
+		studentprofile.setEmail(getEMail());
+		studentprofile.setSubmissionDate(getDate());
+		return studentprofile;
 	}
 	
 	public Name getNameInput() {
@@ -106,7 +118,5 @@ public class CreateProfile extends GridPane{
 	public void addCreateProfileHandler(EventHandler<ActionEvent> handler) {
 		btnCreateProfile.setOnAction(handler);
 	}
-
-
 
 }

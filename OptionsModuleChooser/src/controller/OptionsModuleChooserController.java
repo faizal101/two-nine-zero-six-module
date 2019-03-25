@@ -1,5 +1,7 @@
 package controller;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Alert;
@@ -11,6 +13,7 @@ import model.Name;
 import model.StudentProfile;
 import view.CreateProfile;
 import view.OptionsModuleChooserRootPane;
+import view.SelectModules;
 
 
 public class OptionsModuleChooserController {
@@ -19,28 +22,30 @@ public class OptionsModuleChooserController {
 	private OptionsModuleChooserRootPane view;
 	private StudentProfile model;
 	private CreateProfile createprofile;
+	private SelectModules selectmodules;
+	
 
 	public OptionsModuleChooserController(OptionsModuleChooserRootPane view, StudentProfile model) {
 		// Initialise model and view fields
 		this.model = model;
 		this.view = view;
 		createprofile = view.getCreateProfile();
-
+		selectmodules = new SelectModules();
+		
 		// Populate combo box in create profile pane
 		createprofile.populateComboBoxWithCourses(setupAndRetrieveCourses());
 
 		// Attach event handlers to view using private helper method
 		this.attachEventHandlers();	
 		
-		
 
 	}
 
 	private void attachEventHandlers() {
-		createprofile.addCreateProfileHandler(new SubmitHandler());
+		createprofile.addCreateProfileHandler(new CreateProfileHandler());
 	}
 
-	private class SubmitHandler implements EventHandler<ActionEvent> {
+	private class CreateProfileHandler implements EventHandler<ActionEvent> {
 
 		@Override
 		public void handle(ActionEvent event) {
@@ -54,11 +59,22 @@ public class OptionsModuleChooserController {
 				model.setPnumber(createprofile.getPNumber());
 				model.setEmail(createprofile.getEMail());
 				model.setSubmissionDate(createprofile.getDate());
-				System.out.println("It probably worked");
+			}
+			// TODO: add relevant courses to list view;
+			model = createprofile.getStudentProfile();
+			for(Module m : model.getCourseOfStudy().getAllModulesOnCourse()) {
+				if(!m.isMandatory()) {
+					selectmodules.addUnselectedModules(m);
+				} else if (m.isMandatory()) {
+					//TODO: also add credits
+					selectmodules.addCreditsTerm1(m.getCredits());
+					selectmodules.addSelectedModules(m);
+				}
 			}
 		}
 		
 	}
+	
 	                
 	private Course[] setupAndRetrieveCourses() {
 		Module imat3423 = new Module("IMAT3423", "Systems Building: Methods", 15, true, Delivery.TERM_1);
@@ -124,7 +140,6 @@ public class OptionsModuleChooserController {
 		return courses;
 	}
 
-
 	//helper method to build dialogs
 		private void alertDialogBuilder(AlertType type, String title, String header, String content) {
 			Alert alert = new Alert(type);
@@ -133,4 +148,5 @@ public class OptionsModuleChooserController {
 			alert.setContentText(content);
 			alert.showAndWait();
 		}
+		
 }

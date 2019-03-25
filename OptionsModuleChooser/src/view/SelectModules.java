@@ -1,5 +1,7 @@
 package view;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -11,21 +13,23 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
-import model.Course;
+import model.Module;
 
 public class SelectModules extends BorderPane {
 
-	private ListView<Course> lvUnselectedTerm1, lvUnselectedTerm2, lvSelectedYear, lvSelectedTerm1, lvSelectedTerm2;
+	private ListView<Module> lvUnselectedTerm1, lvUnselectedTerm2, lvSelectedYear, lvSelectedTerm1, lvSelectedTerm2;
 	private TextField txtTerm1Credits, txtTerm2Credits;
 	private Button btnTerm1Add, btnTerm1Remove, btnTerm2Add, btnTerm2Remove, btnReset, btnSubmit;
 	private HBox term1btns, term2btns, miscbtns, creditsTerm1, creditsTerm2;
 	private VBox leftArea, rightArea;
 	private GridPane grid;
+	private SelectModules selectmodules;
+	private ObservableList<Module> unselectedModules, selectedModules;
 	
 	public SelectModules() {
 		//TODO: styling
 		this.setPadding(new Insets(10, 10, 5, 10));
-
+				
 		// Create labels
 		Label lblUnselectedTerm1 = new Label("Unselected Term 1 Modules: ");
 		Label lblUnselectedTerm2 = new Label("Unselected Term 2 Modules: ");
@@ -37,19 +41,31 @@ public class SelectModules extends BorderPane {
 		Label lblTerm1Credits = new Label("Current Term 1 Credits: ");
 		Label lblTerm2Credits = new Label("Current Term 2 Credits: ");
 
+		
 		// Setup list views
-		lvUnselectedTerm1 = new ListView<>();
-		lvUnselectedTerm2 = new ListView<>();
-		lvSelectedYear = new ListView<>();
-		lvSelectedTerm1 = new ListView<>();
-		lvSelectedTerm2 = new ListView<>();
+		unselectedModules = FXCollections.observableArrayList();
+		selectedModules = FXCollections.observableArrayList();
+		lvUnselectedTerm1 = new ListView<>(unselectedModules);
+		lvUnselectedTerm2 = new ListView<>(unselectedModules);
+		lvUnselectedTerm1.getSelectionModel().select(0);
+		lvUnselectedTerm2.getSelectionModel().select(0);
+		
+		
+		lvSelectedYear = new ListView<>(selectedModules);
+		lvSelectedTerm1 = new ListView<>(selectedModules);
+		lvSelectedTerm2 = new ListView<>(selectedModules);
+		lvSelectedTerm1.getSelectionModel().select(0);
+		lvSelectedTerm2.getSelectionModel().select(0);
+		lvSelectedYear.getSelectionModel().select(0);
 		
 		lvSelectedYear.setMinHeight(20);
 		lvSelectedYear.setMaxHeight(100);
 		
 		// Setup text fields
-		txtTerm1Credits = new TextField();
-		txtTerm2Credits = new TextField();
+		txtTerm1Credits = new TextField("0");
+		txtTerm2Credits = new TextField("0");
+		txtTerm1Credits.setEditable(false);
+		txtTerm2Credits.setEditable(false);
 		
 		txtTerm1Credits.setMaxSize(50, 50);
 		txtTerm2Credits.setMaxSize(50, 50);
@@ -104,5 +120,24 @@ public class SelectModules extends BorderPane {
 		this.setCenter(grid);
 		this.setBottom(miscbtns);
 		
+	}
+	
+	public SelectModules getSelectModules() {
+		return selectmodules;
+	}
+	
+	public void addUnselectedModules(Module module) {
+		unselectedModules.add(module);
+	}
+
+	public void addSelectedModules(Module module) {
+		selectedModules.add(module);
+		
+	}	
+	
+	public void addCreditsTerm1(int credits) {
+		String temp = txtTerm1Credits.getText();
+		int newValue = Integer.parseInt(temp) + credits;
+		txtTerm1Credits.setText(String.valueOf(newValue));
 	}
 }
