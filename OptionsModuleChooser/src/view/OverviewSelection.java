@@ -7,7 +7,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.layout.BorderPane;
 
 public class OverviewSelection extends BorderPane{
-// TODO: Something here is causing the bug to happen. Find it.
+
 	private TextArea txtOverview;
 	private Button btnSave;
 
@@ -21,7 +21,6 @@ public class OverviewSelection extends BorderPane{
 		
 		// Initialise and setup save button
 		btnSave = new Button("Save Overview");
-		btnSave.setPadding(new Insets(10, 10, 10, 10));
 
 		this.setCenter(txtOverview);
 		this.setBottom(btnSave);
