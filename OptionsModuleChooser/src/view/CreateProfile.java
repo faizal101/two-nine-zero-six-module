@@ -98,6 +98,10 @@ public class CreateProfile extends GridPane{
 		return studentprofile;
 	}
 	
+	public Course getSelectedCourse() {
+		return cboCourses.getSelectionModel().getSelectedItem();
+	}
+	
 	public Name getNameInput() {
 		String fName = txtFirstName.getText();
 		String sName = txtSurname.getText();

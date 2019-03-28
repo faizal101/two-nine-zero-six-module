@@ -24,7 +24,7 @@ public class SelectModules extends BorderPane {
 	private VBox leftArea, rightArea;
 	private GridPane grid;
 	private SelectModules selectmodules;
-	private ObservableList<Module> unselectedModules, selectedModules;
+	private ObservableList<Module> unselectedModulesTerm1, unselectedModulesTerm2, selectedModules;
 	
 	public SelectModules() {
 		//TODO: styling
@@ -43,10 +43,11 @@ public class SelectModules extends BorderPane {
 
 		
 		// Setup list views
-		unselectedModules = FXCollections.observableArrayList();
+		unselectedModulesTerm1 = FXCollections.observableArrayList();
+		unselectedModulesTerm2 = FXCollections.observableArrayList();
 		selectedModules = FXCollections.observableArrayList();
-		lvUnselectedTerm1 = new ListView<>(unselectedModules);
-		lvUnselectedTerm2 = new ListView<>(unselectedModules);
+		lvUnselectedTerm1 = new ListView<>(unselectedModulesTerm1);
+		lvUnselectedTerm2 = new ListView<>(unselectedModulesTerm2);
 		lvUnselectedTerm1.getSelectionModel().select(0);
 		lvUnselectedTerm2.getSelectionModel().select(0);
 		
@@ -127,18 +128,23 @@ public class SelectModules extends BorderPane {
 	}
 	
 	public void addUnselectedModules(Module module) {
-		unselectedModules.add(module);
-		System.out.println(unselectedModules);
+		//System.out.println(module);
+		unselectedModulesTerm1.add(module);
+		this.clearSelection();
+		//System.out.println(unselectedModules);
 	}
 
 	public void addSelectedModules(Module module) {
 		selectedModules.add(module);
-		
 	}	
 	
 	public void addCreditsTerm1(int credits) {
 		String temp = txtTerm1Credits.getText();
 		int newValue = Integer.parseInt(temp) + credits;
 		txtTerm1Credits.setText(String.valueOf(newValue));
+	}
+	
+	public void clearSelection() {
+		lvUnselectedTerm1.getSelectionModel().clearSelection();
 	}
 }

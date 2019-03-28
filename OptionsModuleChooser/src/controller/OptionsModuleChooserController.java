@@ -27,8 +27,8 @@ public class OptionsModuleChooserController {
 		this.model = model;
 		this.view = view;
 		createprofile = view.getCreateProfile();
-		selectmodules = new SelectModules();
-		
+		selectmodules = view.getSelectModules();
+
 		// Populate combo box in create profile pane
 		createprofile.populateComboBoxWithCourses(setupAndRetrieveCourses());
 
@@ -58,19 +58,25 @@ public class OptionsModuleChooserController {
 				model.setEmail(createprofile.getEMail());
 				model.setSubmissionDate(createprofile.getDate());
 				// TODO: add relevant courses to list view
-				model = createprofile.getStudentProfile();
+				//model = createprofile.getStudentProfile(); <-- probably not needed
+				
+				model.setCourseOfStudy(createprofile.getSelectedCourse());
+				
 				for(Module m : model.getCourseOfStudy().getAllModulesOnCourse()) {
-					if(!m.isMandatory()) {
+					//System.out.println(m);
+					//System.out.println("in here");
+					selectmodules.addUnselectedModules(m);
+					//if(!m.isMandatory()) {
 						//System.out.println(m);
-						selectmodules.addUnselectedModules((m));
-					} //else if (m.isMandatory()) {
+						//selectmodules.addUnselectedModules(m);
+					//} //else if (m.isMandatory()) {
 //						//TODO: also add credits
 //						selectmodules.addCreditsTerm1(m.getCredits());
 //						selectmodules.addSelectedModules(m);
 //					}
 				}
 			}
-			;
+			
 		}
 		
 	}
