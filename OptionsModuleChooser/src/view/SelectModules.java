@@ -128,6 +128,7 @@ public class SelectModules extends BorderPane {
 	
 	public void addUnselectedModules(Module module) {
 		unselectedModules.add(module);
+		System.out.println(unselectedModules);
 	}
 
 	public void addSelectedModules(Module module) {

@@ -7,12 +7,12 @@ import javafx.scene.layout.BorderPane;
 
 public class OptionsModuleChooserRootPane extends BorderPane {
 	
+	private ModuleMenuBar menubar;
 	private CreateProfile createprofile;
 	private SelectModules selectmodules;
 	private OverviewSelection overviewselection;
 	TabPane tabPane = new TabPane();
 	Tab tab = new Tab();
-	private ModuleMenuBar menubar;
 
 	public OptionsModuleChooserRootPane() {
 		

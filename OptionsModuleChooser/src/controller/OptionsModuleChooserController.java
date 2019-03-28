@@ -1,7 +1,5 @@
 package controller;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Alert;
@@ -14,7 +12,6 @@ import model.StudentProfile;
 import view.CreateProfile;
 import view.OptionsModuleChooserRootPane;
 import view.SelectModules;
-
 
 public class OptionsModuleChooserController {
 
@@ -51,6 +48,7 @@ public class OptionsModuleChooserController {
 		public void handle(ActionEvent event) {
 			// TODO More validations such as email, current date etc.
 			Name n = createprofile.getNameInput();
+			
 			// Validation to check if name is empty
 			if (n.getFirstName().equals("") || n.getFamilyName().equals("")) {
 				alertDialogBuilder(AlertType.ERROR, "Error Dialog", null, "You need to input both a first and surname!");
@@ -59,18 +57,20 @@ public class OptionsModuleChooserController {
 				model.setPnumber(createprofile.getPNumber());
 				model.setEmail(createprofile.getEMail());
 				model.setSubmissionDate(createprofile.getDate());
-			}
-			// TODO: add relevant courses to list view;
-			model = createprofile.getStudentProfile();
-			for(Module m : model.getCourseOfStudy().getAllModulesOnCourse()) {
-				if(!m.isMandatory()) {
-					selectmodules.addUnselectedModules(m);
-				} else if (m.isMandatory()) {
-					//TODO: also add credits
-					selectmodules.addCreditsTerm1(m.getCredits());
-					selectmodules.addSelectedModules(m);
+				// TODO: add relevant courses to list view
+				model = createprofile.getStudentProfile();
+				for(Module m : model.getCourseOfStudy().getAllModulesOnCourse()) {
+					if(!m.isMandatory()) {
+						//System.out.println(m);
+						selectmodules.addUnselectedModules((m));
+					} //else if (m.isMandatory()) {
+//						//TODO: also add credits
+//						selectmodules.addCreditsTerm1(m.getCredits());
+//						selectmodules.addSelectedModules(m);
+//					}
 				}
 			}
+			;
 		}
 		
 	}
