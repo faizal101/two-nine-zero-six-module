@@ -24,8 +24,8 @@ public class ApplicationLoader extends Application {
 		//whilst you can set a min width and height (example shown below) for the stage window,
 		//you should not set a max width or height and the application should
 		//be able to be maximised to fill the screen and ideally behave sensibly when resized
-		stage.setMinWidth(530); 
-		stage.setMinHeight(500);
+		stage.setMinWidth(650); 
+		stage.setMinHeight(600);
 		stage.setWidth(530); 
 		stage.setHeight(500);
 		

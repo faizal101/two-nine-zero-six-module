@@ -82,23 +82,7 @@ public class CreateProfile extends GridPane{
 		cboCourses.getItems().addAll(courses);
 		cboCourses.getSelectionModel().select(0); // Selects first course by default (Computer Science)
 	}
-	
-	public CreateProfile getProfile() {
-		return profile;
-	}
-	
-	// Probably not needed?
-	public StudentProfile getStudentProfile() {
-		StudentProfile studentprofile = new StudentProfile();
-		Course course = cboCourses.getSelectionModel().getSelectedItem();
-		studentprofile.setCourseOfStudy(course);
-		studentprofile.setStudentName(getNameInput());
-		studentprofile.setPnumber(getPNumber());
-		studentprofile.setEmail(getEMail());
-		studentprofile.setSubmissionDate(getDate());
-		return studentprofile;
-	}
-	
+		
 	public Course getSelectedCourse() {
 		return cboCourses.getSelectionModel().getSelectedItem();
 	}

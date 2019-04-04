@@ -59,8 +59,8 @@ public class SelectModules extends BorderPane {
 		lvSelectedTerm2.getSelectionModel().select(0);
 		lvSelectedYear.getSelectionModel().select(0);
 		
-		lvSelectedYear.setMinHeight(20);
-		lvSelectedYear.setMaxHeight(300);
+		lvSelectedYear.setMinHeight(49);
+		lvSelectedYear.setMaxHeight(98);
 		
 		// Setup text fields
 		txtTerm1Credits = new TextField("0");
