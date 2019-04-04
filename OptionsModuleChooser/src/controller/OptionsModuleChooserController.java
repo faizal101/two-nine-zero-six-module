@@ -63,14 +63,12 @@ public class OptionsModuleChooserController {
 				model.setCourseOfStudy(createprofile.getSelectedCourse());
 				
 				for(Module m : model.getCourseOfStudy().getAllModulesOnCourse()) {
-					if(!m.isMandatory() && m.getRunPlan().toString() == "TERM_1") {
+					if(!m.isMandatory() && m.getRunPlan() == Delivery.TERM_1) {
+						if(m.getRunPlan() == Delivery.TERM_1)
 						selectmodules.addUnselectedModulesTerm1(m);
-					} else if (!m.isMandatory() && m.getRunPlan().toString() == "TERM_2") {
+					} else if (!m.isMandatory() && m.getRunPlan() == Delivery.TERM_2) {
 						selectmodules.addUnselectedModulesTerm2(m);						
 					} else if (m.isMandatory()) {
-						//System.out.println(m.getRunPlan());
-						//if(m.getRunPlan().toString() == "TERM_1")
-						//TODO: also add credits
 						selectmodules.addCreditsTerm1(m.getCredits());
 						selectmodules.addSelectedModules(m);
 					}
