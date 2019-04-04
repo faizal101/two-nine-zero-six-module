@@ -87,6 +87,7 @@ public class CreateProfile extends GridPane{
 		return profile;
 	}
 	
+	// Probably not needed?
 	public StudentProfile getStudentProfile() {
 		StudentProfile studentprofile = new StudentProfile();
 		Course course = cboCourses.getSelectionModel().getSelectedItem();

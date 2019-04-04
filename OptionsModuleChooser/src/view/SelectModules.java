@@ -60,7 +60,7 @@ public class SelectModules extends BorderPane {
 		lvSelectedYear.getSelectionModel().select(0);
 		
 		lvSelectedYear.setMinHeight(20);
-		lvSelectedYear.setMaxHeight(100);
+		lvSelectedYear.setMaxHeight(300);
 		
 		// Setup text fields
 		txtTerm1Credits = new TextField("0");
@@ -127,13 +127,18 @@ public class SelectModules extends BorderPane {
 		return selectmodules;
 	}
 	
-	public void addUnselectedModules(Module module) {
+	public void addUnselectedModulesTerm1(Module module) {
 		//System.out.println(module);
 		unselectedModulesTerm1.add(module);
 		this.clearSelection();
 		//System.out.println(unselectedModules);
 	}
 
+	public void addUnselectedModulesTerm2(Module module) {
+		unselectedModulesTerm2.add(module);
+		this.clearSelection();
+	}
+	
 	public void addSelectedModules(Module module) {
 		selectedModules.add(module);
 	}	

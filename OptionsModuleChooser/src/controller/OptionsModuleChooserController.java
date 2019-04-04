@@ -20,7 +20,7 @@ public class OptionsModuleChooserController {
 	private StudentProfile model;
 	private CreateProfile createprofile;
 	private SelectModules selectmodules;
-	
+
 
 	public OptionsModuleChooserController(OptionsModuleChooserRootPane view, StudentProfile model) {
 		// Initialise model and view fields
@@ -63,17 +63,17 @@ public class OptionsModuleChooserController {
 				model.setCourseOfStudy(createprofile.getSelectedCourse());
 				
 				for(Module m : model.getCourseOfStudy().getAllModulesOnCourse()) {
-					//System.out.println(m);
-					//System.out.println("in here");
-					selectmodules.addUnselectedModules(m);
-					//if(!m.isMandatory()) {
-						//System.out.println(m);
-						//selectmodules.addUnselectedModules(m);
-					//} //else if (m.isMandatory()) {
-//						//TODO: also add credits
-//						selectmodules.addCreditsTerm1(m.getCredits());
-//						selectmodules.addSelectedModules(m);
-//					}
+					if(!m.isMandatory() && m.getRunPlan().toString() == "TERM_1") {
+						selectmodules.addUnselectedModulesTerm1(m);
+					} else if (!m.isMandatory() && m.getRunPlan().toString() == "TERM_2") {
+						selectmodules.addUnselectedModulesTerm2(m);						
+					} else if (m.isMandatory()) {
+						//System.out.println(m.getRunPlan());
+						//if(m.getRunPlan().toString() == "TERM_1")
+						//TODO: also add credits
+						selectmodules.addCreditsTerm1(m.getCredits());
+						selectmodules.addSelectedModules(m);
+					}
 				}
 			}
 			
