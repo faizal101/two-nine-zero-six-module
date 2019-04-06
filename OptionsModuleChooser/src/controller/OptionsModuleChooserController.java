@@ -66,9 +66,9 @@ public class OptionsModuleChooserController {
 				for(Module m : model.getCourseOfStudy().getAllModulesOnCourse()) {
 					if(!m.isMandatory() && m.getRunPlan() == Delivery.TERM_1) {
 						selectmodules.addUnselectedModulesTerm1(m);
-					} else if (!m.isMandatory() && m.getRunPlan() == Delivery.TERM_2) {
+					} else if(!m.isMandatory() && m.getRunPlan() == Delivery.TERM_2) {
 						selectmodules.addUnselectedModulesTerm2(m);	
-					} else if (m.isMandatory()) {
+					} else if(m.isMandatory()) {
 						if(m.getRunPlan() == Delivery.TERM_1) {
 							selectmodules.addSelectedModulesTerm1(m);
 							} else if(m.getRunPlan() == Delivery.TERM_2) { 
@@ -79,27 +79,34 @@ public class OptionsModuleChooserController {
 					}
 				}
 			}
-			
 		}
-		
 	}
 	
 	private class AddModulesTerm1Handler implements EventHandler<ActionEvent> {
 
 		@Override
 		public void handle(ActionEvent event) {
-			selectmodules.addSelectedModulesTerm1(selectmodules.getUnselectedItemTerm1());
-			selectmodules.removeUnselectedModulesTerm1(selectmodules.getUnselectedItemTerm1());
+			if(selectmodules.getCreditsTerm1() == 60) {
+				alertDialogBuilder(AlertType.INFORMATION, "Term 1 Maximum Credits", null, "The maximum credits allowed for term 1 is 60 credits. "
+						+ "Please remove a course if you would like to add a different course.");
+			} else {
+				selectmodules.addSelectedModulesTerm1(selectmodules.getUnselectedItemTerm1());
+				selectmodules.removeUnselectedModulesTerm1(selectmodules.getUnselectedItemTerm1());				
+			}
 		}
-		
 	}
 	
 	private class AddModulesTerm2Handler implements EventHandler<ActionEvent> {
 
 		@Override
 		public void handle(ActionEvent event) {
-			selectmodules.addSelectedModulesTerm2(selectmodules.getUnselectedItemTerm2());
-			selectmodules.removeUnselectedModulesTerm2(selectmodules.getUnselectedItemTerm2());			
+			if(selectmodules.getCreditsTerm2() == 60) {
+				alertDialogBuilder(AlertType.INFORMATION, "Term 2 Maximum Credits", null, "The maximum credits allowed for term 2 is 60 credits. "
+						+ "Please remove a course if you would like to add a different course.");
+			} else {
+				selectmodules.addSelectedModulesTerm2(selectmodules.getUnselectedItemTerm2());
+				selectmodules.removeUnselectedModulesTerm2(selectmodules.getUnselectedItemTerm2());
+			}		
 		}
 		
 	}

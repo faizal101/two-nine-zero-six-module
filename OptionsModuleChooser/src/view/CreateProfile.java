@@ -15,7 +15,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import model.Course;
 import model.Name;
-import model.StudentProfile;
 
 public class CreateProfile extends GridPane{
 
@@ -23,7 +22,6 @@ public class CreateProfile extends GridPane{
 	private TextField txtPNumber, txtFirstName, txtSurname, txtEMail;
 	private Button btnCreateProfile;
 	private DatePicker txtSubmissionDate;
-	private CreateProfile profile;
 
 	public CreateProfile() {
 		//TODO: styling

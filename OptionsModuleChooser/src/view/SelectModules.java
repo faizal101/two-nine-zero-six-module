@@ -1,5 +1,6 @@
 package view;
 
+import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -84,7 +85,7 @@ public class SelectModules extends BorderPane {
 		btnTerm1Remove = new Button("Remove");
 		btnTerm2Remove = new Button("Remove");
 		btnReset = new Button("Reset");
-		btnSubmit = new Button("Submt");
+		btnSubmit = new Button("Submit");
 		
 		term1btns = new HBox(10);
 		term1btns.getChildren().addAll(lblTerm1, btnTerm1Add, btnTerm1Remove);
@@ -175,6 +176,14 @@ public class SelectModules extends BorderPane {
 		txtTerm2Credits.setText(String.valueOf(newValue));	
 	}
 	
+	public int getCreditsTerm1() {
+		return Integer.parseInt(txtTerm1Credits.getText());
+	}
+	
+	public int getCreditsTerm2() {
+		return Integer.parseInt(txtTerm2Credits.getText());
+	}
+	
 	public void clearSelection() {
 		lvUnselectedTerm1.getSelectionModel().clearSelection();
 	}
@@ -198,11 +207,13 @@ public class SelectModules extends BorderPane {
 	}
 	
 	public void removeSelectedModulesTerm1(Module module) {
+		btnTerm1Remove.disableProperty().bind(Bindings.isEmpty(lvSelectedTerm1.getItems()));
 		selectedModulesTerm1.remove(module);
 		this.removeCreditsTerm1(module.getCredits());
 	}
 	
 	public void removeSelectedModulesTerm2(Module module) {
+		btnTerm2Remove.disableProperty().bind(Bindings.isEmpty(lvSelectedTerm2.getItems()));
 		selectedModulesTerm2.remove(module);
 		this.removeCreditsTerm2(module.getCredits());
 	}
