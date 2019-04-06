@@ -2,6 +2,8 @@ package view;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -24,7 +26,7 @@ public class SelectModules extends BorderPane {
 	private VBox leftArea, rightArea;
 	private GridPane grid;
 	private SelectModules selectmodules;
-	private ObservableList<Module> unselectedModulesTerm1, unselectedModulesTerm2, selectedModules;
+	private ObservableList<Module> unselectedModulesTerm1, unselectedModulesTerm2, selectedModulesYear, selectedModulesTerm1, selectedModulesTerm2;
 	
 	public SelectModules() {
 		//TODO: styling
@@ -45,16 +47,19 @@ public class SelectModules extends BorderPane {
 		// Setup list views
 		unselectedModulesTerm1 = FXCollections.observableArrayList();
 		unselectedModulesTerm2 = FXCollections.observableArrayList();
-		selectedModules = FXCollections.observableArrayList();
+		selectedModulesYear = FXCollections.observableArrayList();
+		selectedModulesTerm1 = FXCollections.observableArrayList();
+		selectedModulesTerm2 = FXCollections.observableArrayList();
+		
 		lvUnselectedTerm1 = new ListView<>(unselectedModulesTerm1);
 		lvUnselectedTerm2 = new ListView<>(unselectedModulesTerm2);
 		lvUnselectedTerm1.getSelectionModel().select(0);
 		lvUnselectedTerm2.getSelectionModel().select(0);
 		
 		
-		lvSelectedYear = new ListView<>(selectedModules);
-		lvSelectedTerm1 = new ListView<>(selectedModules);
-		lvSelectedTerm2 = new ListView<>(selectedModules);
+		lvSelectedYear = new ListView<>(selectedModulesYear);
+		lvSelectedTerm1 = new ListView<>(selectedModulesTerm1);
+		lvSelectedTerm2 = new ListView<>(selectedModulesTerm2);
 		lvSelectedTerm1.getSelectionModel().select(0);
 		lvSelectedTerm2.getSelectionModel().select(0);
 		lvSelectedYear.getSelectionModel().select(0);
@@ -128,10 +133,8 @@ public class SelectModules extends BorderPane {
 	}
 	
 	public void addUnselectedModulesTerm1(Module module) {
-		//System.out.println(module);
 		unselectedModulesTerm1.add(module);
 		this.clearSelection();
-		//System.out.println(unselectedModules);
 	}
 
 	public void addUnselectedModulesTerm2(Module module) {
@@ -139,17 +142,59 @@ public class SelectModules extends BorderPane {
 		this.clearSelection();
 	}
 	
-	public void addSelectedModules(Module module) {
-		selectedModules.add(module);
-	}	
+	public void addSelectedModulesYear(Module module) {
+		// A year long module is worth 30 credits; 15 credits per term.
+		// This is a bit of a hacky way of dealing with it but it works.
+		int credits = module.getCredits()/2;
+		selectedModulesYear.add(module);
+		this.addCreditsTerm1(credits);
+		this.addCreditsTerm2(credits);
+	}
 	
 	public void addCreditsTerm1(int credits) {
 		String temp = txtTerm1Credits.getText();
 		int newValue = Integer.parseInt(temp) + credits;
 		txtTerm1Credits.setText(String.valueOf(newValue));
 	}
+
+	public void addCreditsTerm2(int credits) {
+		String temp = txtTerm2Credits.getText();
+		int newValue = Integer.parseInt(temp) + credits;
+		txtTerm2Credits.setText(String.valueOf(newValue));	
+	}
 	
 	public void clearSelection() {
 		lvUnselectedTerm1.getSelectionModel().clearSelection();
 	}
+
+	public void addSelectedModulesTerm1(Module module) {
+		selectedModulesTerm1.add(module);
+		this.addCreditsTerm1(module.getCredits());
+	}
+	
+	public void addSelectedModulesTerm2(Module module) {
+		selectedModulesTerm2.add(module);
+		this.addCreditsTerm2(module.getCredits());
+	}
+	
+	public void addModulesTerm1AddHandler(EventHandler<ActionEvent> handler) {
+		btnTerm1Add.setOnAction(handler);
+	}
+	
+	public void addModulesTerm2AddHandler(EventHandler<ActionEvent> handler) {
+		btnTerm2Add.setOnAction(handler);
+	}
+	
+	public Module getSelectedItemTerm1() {
+		Module selectedModule = lvUnselectedTerm1.getSelectionModel().getSelectedItem();
+		lvUnselectedTerm1.getItems().remove(lvUnselectedTerm1.getSelectionModel().getSelectedIndex());
+		return selectedModule;
+	}
+
+	public Module getSelectedItemTerm2() {
+		Module selectedModule = lvUnselectedTerm2.getSelectionModel().getSelectedItem();
+		lvUnselectedTerm2.getItems().remove(lvUnselectedTerm2.getSelectionModel().getSelectedIndex());
+		return selectedModule;
+	}
+	
 }

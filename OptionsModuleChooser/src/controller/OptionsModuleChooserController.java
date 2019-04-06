@@ -26,8 +26,8 @@ public class OptionsModuleChooserController {
 		// Initialise model and view fields
 		this.model = model;
 		this.view = view;
-		createprofile = view.getCreateProfile();
-		selectmodules = view.getSelectModules();
+		createprofile = this.view.getCreateProfile();
+		selectmodules = this.view.getSelectModules();
 
 		// Populate combo box in create profile pane
 		createprofile.populateComboBoxWithCourses(setupAndRetrieveCourses());
@@ -40,6 +40,8 @@ public class OptionsModuleChooserController {
 
 	private void attachEventHandlers() {
 		createprofile.addCreateProfileHandler(new CreateProfileHandler());
+		selectmodules.addModulesTerm1AddHandler(new AddModulesTerm1Handler());
+		selectmodules.addModulesTerm2AddHandler(new AddModulesTerm2Handler());
 	}
 
 	private class CreateProfileHandler implements EventHandler<ActionEvent> {
@@ -56,21 +58,22 @@ public class OptionsModuleChooserController {
 				model.setStudentName(new Name(n.getFirstName(), n.getFamilyName()));
 				model.setPnumber(createprofile.getPNumber());
 				model.setEmail(createprofile.getEMail());
-				model.setSubmissionDate(createprofile.getDate());
-				// TODO: add relevant courses to list view
-				//model = createprofile.getStudentProfile(); <-- probably not needed
-				
+				model.setSubmissionDate(createprofile.getDate());				
 				model.setCourseOfStudy(createprofile.getSelectedCourse());
 				
 				for(Module m : model.getCourseOfStudy().getAllModulesOnCourse()) {
 					if(!m.isMandatory() && m.getRunPlan() == Delivery.TERM_1) {
-						if(m.getRunPlan() == Delivery.TERM_1)
 						selectmodules.addUnselectedModulesTerm1(m);
 					} else if (!m.isMandatory() && m.getRunPlan() == Delivery.TERM_2) {
-						selectmodules.addUnselectedModulesTerm2(m);						
+						selectmodules.addUnselectedModulesTerm2(m);	
 					} else if (m.isMandatory()) {
-						selectmodules.addCreditsTerm1(m.getCredits());
-						selectmodules.addSelectedModules(m);
+						if(m.getRunPlan() == Delivery.TERM_1) {
+							selectmodules.addSelectedModulesTerm1(m);
+							} else if(m.getRunPlan() == Delivery.TERM_2) { 
+							selectmodules.addSelectedModulesTerm2(m);
+							} else {
+						selectmodules.addSelectedModulesYear(m);
+						}
 					}
 				}
 			}
@@ -79,6 +82,24 @@ public class OptionsModuleChooserController {
 		
 	}
 	
+	private class AddModulesTerm1Handler implements EventHandler<ActionEvent> {
+
+		@Override
+		public void handle(ActionEvent event) {
+			selectmodules.addSelectedModulesTerm1(selectmodules.getSelectedItemTerm1());
+		}
+		
+	}
+	
+	private class AddModulesTerm2Handler implements EventHandler<ActionEvent> {
+
+		@Override
+		public void handle(ActionEvent event) {
+			selectmodules.addSelectedModulesTerm2(selectmodules.getSelectedItemTerm2());
+			
+		}
+		
+	}
 	                
 	private Course[] setupAndRetrieveCourses() {
 		Module imat3423 = new Module("IMAT3423", "Systems Building: Methods", 15, true, Delivery.TERM_1);
