@@ -163,6 +163,18 @@ public class SelectModules extends BorderPane {
 		txtTerm2Credits.setText(String.valueOf(newValue));	
 	}
 	
+	public void removeCreditsTerm1(int credits) {
+		String temp = txtTerm1Credits.getText();
+		int newValue = Integer.parseInt(temp) - credits;
+		txtTerm1Credits.setText(String.valueOf(newValue));	
+	}
+	
+	public void removeCreditsTerm2(int credits) {
+		String temp = txtTerm2Credits.getText();
+		int newValue = Integer.parseInt(temp) - credits;
+		txtTerm2Credits.setText(String.valueOf(newValue));	
+	}
+	
 	public void clearSelection() {
 		lvUnselectedTerm1.getSelectionModel().clearSelection();
 	}
@@ -177,6 +189,24 @@ public class SelectModules extends BorderPane {
 		this.addCreditsTerm2(module.getCredits());
 	}
 	
+	public void removeUnselectedModulesTerm1(Module module) {
+		unselectedModulesTerm1.remove(module);
+	}
+	
+	public void removeUnselectedModulesTerm2(Module module) {
+		unselectedModulesTerm2.remove(module);
+	}
+	
+	public void removeSelectedModulesTerm1(Module module) {
+		selectedModulesTerm1.remove(module);
+		this.removeCreditsTerm1(module.getCredits());
+	}
+	
+	public void removeSelectedModulesTerm2(Module module) {
+		selectedModulesTerm2.remove(module);
+		this.removeCreditsTerm2(module.getCredits());
+	}
+	
 	public void addModulesTerm1AddHandler(EventHandler<ActionEvent> handler) {
 		btnTerm1Add.setOnAction(handler);
 	}
@@ -185,16 +215,28 @@ public class SelectModules extends BorderPane {
 		btnTerm2Add.setOnAction(handler);
 	}
 	
-	public Module getSelectedItemTerm1() {
-		Module selectedModule = lvUnselectedTerm1.getSelectionModel().getSelectedItem();
-		lvUnselectedTerm1.getItems().remove(lvUnselectedTerm1.getSelectionModel().getSelectedIndex());
-		return selectedModule;
+	public Module getUnselectedItemTerm1() {
+		return lvUnselectedTerm1.getSelectionModel().getSelectedItem();
 	}
 
+	public Module getUnselectedItemTerm2() {
+		return lvUnselectedTerm2.getSelectionModel().getSelectedItem();
+	}
+	
+	public Module getSelectedItemTerm1() {
+		return lvSelectedTerm1.getSelectionModel().getSelectedItem();
+	}
+	
 	public Module getSelectedItemTerm2() {
-		Module selectedModule = lvUnselectedTerm2.getSelectionModel().getSelectedItem();
-		lvUnselectedTerm2.getItems().remove(lvUnselectedTerm2.getSelectionModel().getSelectedIndex());
-		return selectedModule;
+		return lvSelectedTerm2.getSelectionModel().getSelectedItem();
+	}
+	
+	public void addModulesTerm1RemoveHandler(EventHandler<ActionEvent> handler) {
+		btnTerm1Remove.setOnAction(handler);
+	}
+	
+	public void addModulesTerm2RemoveHandler(EventHandler<ActionEvent> handler) {
+		btnTerm2Remove.setOnAction(handler);
 	}
 	
 }

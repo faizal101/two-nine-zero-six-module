@@ -42,6 +42,8 @@ public class OptionsModuleChooserController {
 		createprofile.addCreateProfileHandler(new CreateProfileHandler());
 		selectmodules.addModulesTerm1AddHandler(new AddModulesTerm1Handler());
 		selectmodules.addModulesTerm2AddHandler(new AddModulesTerm2Handler());
+		selectmodules.addModulesTerm1RemoveHandler(new RemoveModulesTerm1Handler());
+		selectmodules.addModulesTerm2RemoveHandler(new RemoveModulesTerm2Handler());
 	}
 
 	private class CreateProfileHandler implements EventHandler<ActionEvent> {
@@ -86,7 +88,8 @@ public class OptionsModuleChooserController {
 
 		@Override
 		public void handle(ActionEvent event) {
-			selectmodules.addSelectedModulesTerm1(selectmodules.getSelectedItemTerm1());
+			selectmodules.addSelectedModulesTerm1(selectmodules.getUnselectedItemTerm1());
+			selectmodules.removeUnselectedModulesTerm1(selectmodules.getUnselectedItemTerm1());
 		}
 		
 	}
@@ -95,7 +98,37 @@ public class OptionsModuleChooserController {
 
 		@Override
 		public void handle(ActionEvent event) {
-			selectmodules.addSelectedModulesTerm2(selectmodules.getSelectedItemTerm2());
+			selectmodules.addSelectedModulesTerm2(selectmodules.getUnselectedItemTerm2());
+			selectmodules.removeUnselectedModulesTerm2(selectmodules.getUnselectedItemTerm2());			
+		}
+		
+	}
+	
+	private class RemoveModulesTerm1Handler implements EventHandler<ActionEvent> {
+
+		@Override
+		public void handle(ActionEvent event) {
+			if(selectmodules.getSelectedItemTerm1().isMandatory()) {
+				alertDialogBuilder(AlertType.ERROR, "Error Dialog", null, selectmodules.getSelectedItemTerm1().toString() + " is a compulsory module!");
+			} else {
+				selectmodules.addUnselectedModulesTerm1(selectmodules.getSelectedItemTerm1());
+				selectmodules.removeSelectedModulesTerm1(selectmodules.getSelectedItemTerm1());
+			}
+			
+		}
+		
+	}
+	
+	private class RemoveModulesTerm2Handler implements EventHandler<ActionEvent> {
+
+		@Override
+		public void handle(ActionEvent event) {
+			if(selectmodules.getSelectedItemTerm2().isMandatory()) {
+				alertDialogBuilder(AlertType.ERROR, "Error Dialog", null, selectmodules.getSelectedItemTerm2().toString() + " is a compulsory module!");
+			} else {
+				selectmodules.addUnselectedModulesTerm2(selectmodules.getSelectedItemTerm2());
+				selectmodules.removeSelectedModulesTerm2(selectmodules.getSelectedItemTerm2());
+			}
 			
 		}
 		
