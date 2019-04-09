@@ -162,12 +162,29 @@ public class OptionsModuleChooserController {
 		@Override
 		public void handle(ActionEvent event) {
 
-			overviewSelection.setOverview("Chosen Term 1 Modules: \n\n");
+			// Adds course, student name, P-Number, e-mail and date to the overview selection text area.
+			overviewSelection.setOverview("Course: " + model.getCourseOfStudy() + "\n" + "Student: "
+					+ model.getStudentName().getFullName() + "\n" + "P Number: " + model.getPnumber() + "\n"
+					+ "Email: " + model.getEmail() + "\n" + "Date: " + model.getSubmissionDate() + "\n");
+
+			overviewSelection.setOverview("\nChosen Modules: \n");
+			// Add the chosen year long modules
+			ObservableList<Module> yearLong = selectModules.getSelectedModulesYear();
+			yearLong.forEach(m -> overviewSelection.setOverview(m.getModuleCode() + ": " + m.getModuleName() + "\n" + m.getCredits() + " credits\t"
+					+ "Mandatory on the course: " + (m.isMandatory()?"Yes\t":"No\t")
+					+ "Delivery: Year Long" + "\n\n"));
+
+			// Adds the chosen term 1 modules
 			ObservableList<Module> term1 = selectModules.getSelectedModulesTerm1();
-			term1.forEach(m -> overviewSelection.setOverview(m.getModuleCode() + " " + m.getModuleName() + "\n"));
-			overviewSelection.setOverview("\nChosen Term 2 Modules: \n\n");
+			term1.forEach(m -> overviewSelection.setOverview(m.getModuleCode() + ": " + m.getModuleName() + "\n" + m.getCredits() + " credits\t"
+					+ "Mandatory on the course: " + (m.isMandatory()?"Yes\t":"No\t")
+					+ "Delivery: Term 1" + "\n\n"));
+
+			// Add the chosen term 2 modules:
 			ObservableList<Module> term2 = selectModules.getSelectedModulesTerm2();
-			term2.forEach(m -> overviewSelection.setOverview(m.getModuleCode() + " " + m.getModuleName() + "\n"));
+			term2.forEach(m -> overviewSelection.setOverview(m.getModuleCode() + ": " + m.getModuleName() + "\n" + m.getCredits() + " credits\t"
+					+ "Mandatory on the course: " + (m.isMandatory()?"Yes\t":"No\t")
+					+ "Delivery: Term 2" + "\n\n"));
 
 		}
 

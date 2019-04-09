@@ -254,6 +254,12 @@ public class SelectModules extends BorderPane {
 		return lvSelectedTerm2.getSelectionModel().getSelectedItems();
 	}
 
+	public ObservableList<Module> getSelectedModulesYear() {
+		lvSelectedYear.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+		lvSelectedYear.getSelectionModel().selectAll();
+		return lvSelectedYear.getSelectionModel().getSelectedItems();
+	}
+
 	public void addModulesTerm1RemoveHandler(EventHandler<ActionEvent> handler) {
 		btnTerm1Remove.setOnAction(handler);
 	}
