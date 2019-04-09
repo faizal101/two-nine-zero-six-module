@@ -1,5 +1,6 @@
 package controller;
 
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Alert;
@@ -11,6 +12,7 @@ import model.Name;
 import model.StudentProfile;
 import view.CreateProfile;
 import view.OptionsModuleChooserRootPane;
+import view.OverviewSelection;
 import view.SelectModules;
 
 public class OptionsModuleChooserController {
@@ -20,6 +22,7 @@ public class OptionsModuleChooserController {
 	private StudentProfile model;
 	private CreateProfile createProfile;
 	private SelectModules selectModules;
+	private OverviewSelection overviewSelection;
 
 
 	public OptionsModuleChooserController(OptionsModuleChooserRootPane view, StudentProfile model) {
@@ -28,6 +31,7 @@ public class OptionsModuleChooserController {
 		this.view = view;
 		createProfile = this.view.getCreateProfile();
 		selectModules = this.view.getSelectModules();
+		overviewSelection = this.view.getOverviewSelection();
 
 		// Populate combo box in create profile pane
 		createProfile.populateComboBoxWithCourses(setupAndRetrieveCourses());
@@ -45,6 +49,7 @@ public class OptionsModuleChooserController {
 		selectModules.addModulesTerm1RemoveHandler(new RemoveModulesTerm1Handler());
 		selectModules.addModulesTerm2RemoveHandler(new RemoveModulesTerm2Handler());
 		selectModules.addResetHandler(new ResetHandler());
+		selectModules.addSubmitHandler(new SubmitHandler());
 	}
 
 	private class CreateProfileHandler implements EventHandler<ActionEvent> {
@@ -147,6 +152,22 @@ public class OptionsModuleChooserController {
 		@Override
 		public void handle(ActionEvent event) {
 			// TODO Auto-generated method stub
+
+		}
+
+	}
+
+	private class SubmitHandler implements EventHandler<ActionEvent> {
+
+		@Override
+		public void handle(ActionEvent event) {
+
+			overviewSelection.setOverview("Chosen Term 1 Modules: \n\n");
+			ObservableList<Module> term1 = selectModules.getSelectedModulesTerm1();
+			term1.forEach(m -> overviewSelection.setOverview(m.getModuleCode() + " " + m.getModuleName() + "\n"));
+			overviewSelection.setOverview("\nChosen Term 2 Modules: \n\n");
+			ObservableList<Module> term2 = selectModules.getSelectedModulesTerm2();
+			term2.forEach(m -> overviewSelection.setOverview(m.getModuleCode() + " " + m.getModuleName() + "\n"));
 
 		}
 

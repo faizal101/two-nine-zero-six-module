@@ -6,7 +6,7 @@ import javafx.scene.control.TabPane.TabClosingPolicy;
 import javafx.scene.layout.BorderPane;
 
 public class OptionsModuleChooserRootPane extends BorderPane {
-	
+
 	private ModuleMenuBar menubar;
 	private CreateProfile createProfile;
 	private SelectModules selectModules;
@@ -15,7 +15,7 @@ public class OptionsModuleChooserRootPane extends BorderPane {
 	Tab tab = new Tab();
 
 	public OptionsModuleChooserRootPane() {
-		
+
 		tabPane.setTabClosingPolicy(TabClosingPolicy.UNAVAILABLE);
 		createProfile = new CreateProfile();
 		selectModules = new SelectModules();
@@ -26,19 +26,23 @@ public class OptionsModuleChooserRootPane extends BorderPane {
 		Tab t2 = new Tab("Select Modules", selectModules);
 		Tab t3 = new Tab("Overview Selection", overviewSelection);
 		tabPane.getTabs().addAll(t1, t2, t3);
-		
+
 		this.setTop(menubar);
 		this.setCenter(tabPane);
-		
+
 	}
-	
+
 	/* These methods provide a public interface for the root pane and allow
 	 * each of the sub-containers to be accessed by the controller. */
 	public CreateProfile getCreateProfile() {
 		return createProfile;
 	}
-	
+
 	public SelectModules getSelectModules() {
-		return selectModules;	
+		return selectModules;
+	}
+
+	public OverviewSelection getOverviewSelection() {
+		return overviewSelection;
 	}
 }

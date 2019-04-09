@@ -10,15 +10,16 @@ public class OverviewSelection extends BorderPane{
 
 	private TextArea txtOverview;
 	private Button btnSave;
+	private String text = "";
 
 	public OverviewSelection() {
-		
-		this.setPadding(new Insets(20, 20, 20, 20));	
+
+		this.setPadding(new Insets(20, 20, 20, 20));
 
 		// Setup text area
 		txtOverview = new TextArea();
 		txtOverview.setWrapText(true);
-		
+
 		// Initialise and setup save button
 		btnSave = new Button("Save Overview");
 
@@ -26,5 +27,10 @@ public class OverviewSelection extends BorderPane{
 		this.setBottom(btnSave);
 		BorderPane.setAlignment(btnSave, Pos.CENTER);
 		BorderPane.setMargin(btnSave, new Insets (10, 10, 10, 10));
+	}
+
+	public void setOverview(String text) {
+		this.text += text;
+		txtOverview.setText(this.text);
 	}
 }

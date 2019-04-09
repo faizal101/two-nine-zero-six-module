@@ -10,6 +10,7 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
@@ -240,6 +241,17 @@ public class SelectModules extends BorderPane {
 
 	public Module getSelectedItemTerm2() {
 		return lvSelectedTerm2.getSelectionModel().getSelectedItem();
+	}
+
+	public ObservableList<Module> getSelectedModulesTerm1() {
+		lvSelectedTerm1.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+		lvSelectedTerm1.getSelectionModel().selectAll();
+		return lvSelectedTerm1.getSelectionModel().getSelectedItems();
+	}
+	public ObservableList<Module> getSelectedModulesTerm2() {
+		lvSelectedTerm2.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+		lvSelectedTerm2.getSelectionModel().selectAll();
+		return lvSelectedTerm2.getSelectionModel().getSelectedItems();
 	}
 
 	public void addModulesTerm1RemoveHandler(EventHandler<ActionEvent> handler) {
