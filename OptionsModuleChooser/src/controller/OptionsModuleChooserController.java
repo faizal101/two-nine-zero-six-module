@@ -18,32 +18,33 @@ public class OptionsModuleChooserController {
 	//fields to be used throughout the class
 	private OptionsModuleChooserRootPane view;
 	private StudentProfile model;
-	private CreateProfile createprofile;
-	private SelectModules selectmodules;
+	private CreateProfile createProfile;
+	private SelectModules selectModules;
 
 
 	public OptionsModuleChooserController(OptionsModuleChooserRootPane view, StudentProfile model) {
 		// Initialise model and view fields
 		this.model = model;
 		this.view = view;
-		createprofile = this.view.getCreateProfile();
-		selectmodules = this.view.getSelectModules();
+		createProfile = this.view.getCreateProfile();
+		selectModules = this.view.getSelectModules();
 
 		// Populate combo box in create profile pane
-		createprofile.populateComboBoxWithCourses(setupAndRetrieveCourses());
+		createProfile.populateComboBoxWithCourses(setupAndRetrieveCourses());
 
 		// Attach event handlers to view using private helper method
-		this.attachEventHandlers();	
-		
+		this.attachEventHandlers();
+
 
 	}
 
 	private void attachEventHandlers() {
-		createprofile.addCreateProfileHandler(new CreateProfileHandler());
-		selectmodules.addModulesTerm1AddHandler(new AddModulesTerm1Handler());
-		selectmodules.addModulesTerm2AddHandler(new AddModulesTerm2Handler());
-		selectmodules.addModulesTerm1RemoveHandler(new RemoveModulesTerm1Handler());
-		selectmodules.addModulesTerm2RemoveHandler(new RemoveModulesTerm2Handler());
+		createProfile.addCreateProfileHandler(new CreateProfileHandler());
+		selectModules.addModulesTerm1AddHandler(new AddModulesTerm1Handler());
+		selectModules.addModulesTerm2AddHandler(new AddModulesTerm2Handler());
+		selectModules.addModulesTerm1RemoveHandler(new RemoveModulesTerm1Handler());
+		selectModules.addModulesTerm2RemoveHandler(new RemoveModulesTerm2Handler());
+		selectModules.addResetHandler(new ResetHandler());
 	}
 
 	private class CreateProfileHandler implements EventHandler<ActionEvent> {
@@ -51,105 +52,115 @@ public class OptionsModuleChooserController {
 		@Override
 		public void handle(ActionEvent event) {
 			// TODO More validations such as email, current date etc.
-			Name n = createprofile.getNameInput();
-			
+			Name n = createProfile.getNameInput();
+
 			// Validation to check if name is empty
 			if (n.getFirstName().equals("") || n.getFamilyName().equals("")) {
 				alertDialogBuilder(AlertType.ERROR, "Error Dialog", null, "You need to input both a first and surname!");
 			} else {
 				model.setStudentName(new Name(n.getFirstName(), n.getFamilyName()));
-				model.setPnumber(createprofile.getPNumber());
-				model.setEmail(createprofile.getEMail());
-				model.setSubmissionDate(createprofile.getDate());				
-				model.setCourseOfStudy(createprofile.getSelectedCourse());
-				
+				model.setPnumber(createProfile.getPNumber());
+				model.setEmail(createProfile.getEMail());
+				model.setSubmissionDate(createProfile.getDate());
+				model.setCourseOfStudy(createProfile.getSelectedCourse());
+
 				for(Module m : model.getCourseOfStudy().getAllModulesOnCourse()) {
 					if(!m.isMandatory() && m.getRunPlan() == Delivery.TERM_1) {
-						selectmodules.addUnselectedModulesTerm1(m);
+						selectModules.addUnselectedModulesTerm1(m);
 					} else if(!m.isMandatory() && m.getRunPlan() == Delivery.TERM_2) {
-						selectmodules.addUnselectedModulesTerm2(m);	
+						selectModules.addUnselectedModulesTerm2(m);
 					} else if(m.isMandatory()) {
 						if(m.getRunPlan() == Delivery.TERM_1) {
-							selectmodules.addSelectedModulesTerm1(m);
-							} else if(m.getRunPlan() == Delivery.TERM_2) { 
-							selectmodules.addSelectedModulesTerm2(m);
+							selectModules.addSelectedModulesTerm1(m);
+							} else if(m.getRunPlan() == Delivery.TERM_2) {
+							selectModules.addSelectedModulesTerm2(m);
 							} else {
-						selectmodules.addSelectedModulesYear(m);
+						selectModules.addSelectedModulesYear(m);
 						}
 					}
 				}
 			}
 		}
 	}
-	
+
 	private class AddModulesTerm1Handler implements EventHandler<ActionEvent> {
 
 		@Override
 		public void handle(ActionEvent event) {
-			if(selectmodules.getCreditsTerm1() == 60) {
+			if(selectModules.getCreditsTerm1() == 60) {
 				alertDialogBuilder(AlertType.INFORMATION, "Term 1 Maximum Credits", null, "The maximum credits allowed for term 1 is 60 credits. "
 						+ "Please remove a course if you would like to add a different course.");
 			} else {
-				selectmodules.addSelectedModulesTerm1(selectmodules.getUnselectedItemTerm1());
-				selectmodules.removeUnselectedModulesTerm1(selectmodules.getUnselectedItemTerm1());				
+				selectModules.addSelectedModulesTerm1(selectModules.getUnselectedItemTerm1());
+				selectModules.removeUnselectedModulesTerm1(selectModules.getUnselectedItemTerm1());
 			}
 		}
 	}
-	
+
 	private class AddModulesTerm2Handler implements EventHandler<ActionEvent> {
 
 		@Override
 		public void handle(ActionEvent event) {
-			if(selectmodules.getCreditsTerm2() == 60) {
+			if(selectModules.getCreditsTerm2() == 60) {
 				alertDialogBuilder(AlertType.INFORMATION, "Term 2 Maximum Credits", null, "The maximum credits allowed for term 2 is 60 credits. "
 						+ "Please remove a course if you would like to add a different course.");
 			} else {
-				selectmodules.addSelectedModulesTerm2(selectmodules.getUnselectedItemTerm2());
-				selectmodules.removeUnselectedModulesTerm2(selectmodules.getUnselectedItemTerm2());
-			}		
+				selectModules.addSelectedModulesTerm2(selectModules.getUnselectedItemTerm2());
+				selectModules.removeUnselectedModulesTerm2(selectModules.getUnselectedItemTerm2());
+			}
 		}
-		
+
 	}
-	
+
 	private class RemoveModulesTerm1Handler implements EventHandler<ActionEvent> {
 
 		@Override
 		public void handle(ActionEvent event) {
-			if(selectmodules.getSelectedItemTerm1().isMandatory()) {
-				alertDialogBuilder(AlertType.ERROR, "Error Dialog", null, selectmodules.getSelectedItemTerm1().toString() + " is a compulsory module!");
+			if(selectModules.getSelectedItemTerm1().isMandatory()) {
+				alertDialogBuilder(AlertType.ERROR, "Error Dialog", null, selectModules.getSelectedItemTerm1().toString() + " is a compulsory module!");
 			} else {
-				selectmodules.addUnselectedModulesTerm1(selectmodules.getSelectedItemTerm1());
-				selectmodules.removeSelectedModulesTerm1(selectmodules.getSelectedItemTerm1());
+				selectModules.addUnselectedModulesTerm1(selectModules.getSelectedItemTerm1());
+				selectModules.removeSelectedModulesTerm1(selectModules.getSelectedItemTerm1());
 			}
-			
+
 		}
-		
+
 	}
-	
+
 	private class RemoveModulesTerm2Handler implements EventHandler<ActionEvent> {
 
 		@Override
 		public void handle(ActionEvent event) {
-			if(selectmodules.getSelectedItemTerm2().isMandatory()) {
-				alertDialogBuilder(AlertType.ERROR, "Error Dialog", null, selectmodules.getSelectedItemTerm2().toString() + " is a compulsory module!");
+			if(selectModules.getSelectedItemTerm2().isMandatory()) {
+				alertDialogBuilder(AlertType.ERROR, "Error Dialog", null, selectModules.getSelectedItemTerm2().toString() + " is a compulsory module!");
 			} else {
-				selectmodules.addUnselectedModulesTerm2(selectmodules.getSelectedItemTerm2());
-				selectmodules.removeSelectedModulesTerm2(selectmodules.getSelectedItemTerm2());
+				selectModules.addUnselectedModulesTerm2(selectModules.getSelectedItemTerm2());
+				selectModules.removeSelectedModulesTerm2(selectModules.getSelectedItemTerm2());
 			}
-			
+
 		}
-		
+
 	}
-	                
+
+	private class ResetHandler implements EventHandler<ActionEvent> {
+
+		@Override
+		public void handle(ActionEvent event) {
+			// TODO Auto-generated method stub
+
+		}
+
+	}
+
 	private Course[] setupAndRetrieveCourses() {
 		Module imat3423 = new Module("IMAT3423", "Systems Building: Methods", 15, true, Delivery.TERM_1);
 		Module imat3451 = new Module("IMAT3451", "Computing Project", 30, true, Delivery.YEAR_LONG);
-		Module ctec3902_SoftEng = new Module("CTEC3902", "Rigorous Systems", 15, true, Delivery.TERM_2);	
+		Module ctec3902_SoftEng = new Module("CTEC3902", "Rigorous Systems", 15, true, Delivery.TERM_2);
 		Module ctec3902_CompSci = new Module("CTEC3902", "Rigorous Systems", 15, false, Delivery.TERM_2);
 		Module ctec3110 = new Module("CTEC3110", "Secure Web Application Development", 15, false, Delivery.TERM_1);
 		Module ctec3426 = new Module("CTEC3426", "Telematics", 15, false, Delivery.TERM_1);
-		Module ctec3605 = new Module("CTEC3605", "Multi-service Networks 1", 15, false, Delivery.TERM_1);	
-		Module ctec3606 = new Module("CTEC3606", "Multi-service Networks 2", 15, false, Delivery.TERM_2);	
+		Module ctec3605 = new Module("CTEC3605", "Multi-service Networks 1", 15, false, Delivery.TERM_1);
+		Module ctec3606 = new Module("CTEC3606", "Multi-service Networks 2", 15, false, Delivery.TERM_2);
 		Module ctec3410 = new Module("CTEC3410", "Web Application Penetration Testing", 15, false, Delivery.TERM_2);
 		Module ctec3904 = new Module("CTEC3904", "Functional Software Development", 15, false, Delivery.TERM_2);
 		Module ctec3905 = new Module("CTEC3905", "Front-End Web Development", 15, false, Delivery.TERM_2);
@@ -213,5 +224,5 @@ public class OptionsModuleChooserController {
 			alert.setContentText(content);
 			alert.showAndWait();
 		}
-		
+
 }
