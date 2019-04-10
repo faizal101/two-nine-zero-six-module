@@ -2,6 +2,8 @@ package controller;
 
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -58,13 +60,16 @@ public class OptionsModuleChooserController {
 
 		@Override
 		public void handle(ActionEvent event) {
-			// TODO More validations such as email, current date etc.
 			Name n = createProfile.getNameInput();
-
-			// Validation to check if name is empty
-			if (n.getFirstName().equals("") || n.getFamilyName().equals("")) {
+			Validation validation = new Validation();
+			if(!validation.pNumberValidation(createProfile.getPNumber())) {
+				alertDialogBuilder(AlertType.ERROR, "Error Dialog", null, "You need to input a valid P Number!");
+			} else if(validation.nameValidation(n)) {
 				alertDialogBuilder(AlertType.ERROR, "Error Dialog", null, "You need to input both a first and surname!");
+			} else if(!validation.eMailValidation(createProfile.getEMail())) {
+				alertDialogBuilder(AlertType.ERROR, "Error Dialog", null, "You need to input a valid email address!");
 			} else {
+				model.setStudentName(new Name(n.getFirstName(), n.getFamilyName()));
 				model.setStudentName(new Name(n.getFirstName(), n.getFamilyName()));
 				model.setPnumber(createProfile.getPNumber());
 				model.setEmail(createProfile.getEMail());
@@ -79,10 +84,10 @@ public class OptionsModuleChooserController {
 					} else if(m.isMandatory()) {
 						if(m.getRunPlan() == Delivery.TERM_1) {
 							selectModules.addSelectedModulesTerm1(m);
-							} else if(m.getRunPlan() == Delivery.TERM_2) {
+						} else if(m.getRunPlan() == Delivery.TERM_2) {
 							selectModules.addSelectedModulesTerm2(m);
-							} else {
-						selectModules.addSelectedModulesYear(m);
+						} else {
+							selectModules.addSelectedModulesYear(m);
 						}
 					}
 				}
@@ -271,12 +276,34 @@ public class OptionsModuleChooserController {
 	}
 
 	// Helper method to build dialogs
-		private void alertDialogBuilder(AlertType type, String title, String header, String content) {
-			Alert alert = new Alert(type);
-			alert.setTitle(title);
-			alert.setHeaderText(header);
-			alert.setContentText(content);
-			alert.showAndWait();
+	private void alertDialogBuilder(AlertType type, String title, String header, String content) {
+		Alert alert = new Alert(type);
+		alert.setTitle(title);
+		alert.setHeaderText(header);
+		alert.setContentText(content);
+		alert.showAndWait();
+	}
+
+	private class Validation {
+
+		public boolean pNumberValidation(String pnumber) {
+			Pattern pNumber = Pattern.compile("[P]+[\\d+]", Pattern.CASE_INSENSITIVE);
+			Matcher check = pNumber.matcher(pnumber);
+			return check.find();
 		}
+
+		public boolean nameValidation(Name name) {
+			return name.getFirstName().equals("") || name.getFamilyName().equals("");
+		}
+
+		public boolean eMailValidation(String email) {
+			// It takes like a wizard to master Regex.
+			// This Regex to validate an email address is from: https://stackoverflow.com/a/8204716
+			Pattern eMail = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
+			Matcher check = eMail.matcher(email);
+			return check.find();
+		}
+
+	}
 
 }

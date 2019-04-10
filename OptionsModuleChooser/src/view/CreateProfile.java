@@ -21,7 +21,7 @@ public class CreateProfile extends GridPane{
 	private ComboBox<Course> cboCourses;
 	private TextField txtPNumber, txtFirstName, txtSurname, txtEMail;
 	private Button btnCreateProfile;
-	private DatePicker txtSubmissionDate;
+	private DatePicker submissionDate;
 
 	public CreateProfile() {
 		//TODO: styling
@@ -46,7 +46,7 @@ public class CreateProfile extends GridPane{
 		txtFirstName = new TextField();
 		txtSurname = new TextField();
 		txtEMail = new TextField();
-		txtSubmissionDate = new DatePicker();
+		submissionDate = new DatePicker();
 
 		// Initialise submit button
 		btnCreateProfile = new Button("Create Profile");
@@ -68,11 +68,11 @@ public class CreateProfile extends GridPane{
 		this.add(txtEMail, 1, 4);
 
 		this.add(lblDate, 0, 5);
-		this.add(txtSubmissionDate, 1, 5);
+		this.add(submissionDate, 1, 5);
 
 		this.add(new HBox(), 0, 6);
 		this.add(btnCreateProfile, 1, 6);
-		
+
 	}
 
 	// Method to allow the controller to populate the combo box
@@ -80,28 +80,28 @@ public class CreateProfile extends GridPane{
 		cboCourses.getItems().addAll(courses);
 		cboCourses.getSelectionModel().select(0); // Selects first course by default (Computer Science)
 	}
-		
+
 	public Course getSelectedCourse() {
 		return cboCourses.getSelectionModel().getSelectedItem();
 	}
-	
+
 	public Name getNameInput() {
 		String fName = txtFirstName.getText();
 		String sName = txtSurname.getText();
 		return new Name(fName, sName);
 	}
-	
+
 	public String getPNumber() {
 		return txtPNumber.getText();
 	}
-	
+
 	public String getEMail() {
 		return txtEMail.getText();
 	}
 	public LocalDate getDate() {
-		return txtSubmissionDate.getValue();
+		return submissionDate.getValue();
 	}
-	
+
 	public void addCreateProfileHandler(EventHandler<ActionEvent> handler) {
 		btnCreateProfile.setOnAction(handler);
 	}
