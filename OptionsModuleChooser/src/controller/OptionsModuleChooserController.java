@@ -287,7 +287,7 @@ public class OptionsModuleChooserController {
 	private class Validation {
 
 		public boolean pNumberValidation(String pnumber) {
-			Pattern pNumber = Pattern.compile("[P]+[\\d+]", Pattern.CASE_INSENSITIVE);
+			Pattern pNumber = Pattern.compile("^[P-p]+[\\d+]");
 			Matcher check = pNumber.matcher(pnumber);
 			return check.find();
 		}
