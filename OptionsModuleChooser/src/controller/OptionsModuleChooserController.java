@@ -1,5 +1,8 @@
 package controller;
 
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -38,8 +41,6 @@ public class OptionsModuleChooserController {
 
 		// Attach event handlers to view using private helper method
 		this.attachEventHandlers();
-
-
 	}
 
 	private void attachEventHandlers() {
@@ -50,6 +51,7 @@ public class OptionsModuleChooserController {
 		selectModules.addModulesTerm2RemoveHandler(new RemoveModulesTerm2Handler());
 		selectModules.addResetHandler(new ResetHandler());
 		selectModules.addSubmitHandler(new SubmitHandler());
+		overviewSelection.addSaveHandler(new SaveHandler());
 	}
 
 	private class CreateProfileHandler implements EventHandler<ActionEvent> {
@@ -158,7 +160,6 @@ public class OptionsModuleChooserController {
 	}
 
 	private class SubmitHandler implements EventHandler<ActionEvent> {
-
 		@Override
 		public void handle(ActionEvent event) {
 
@@ -185,6 +186,21 @@ public class OptionsModuleChooserController {
 			term2.forEach(m -> overviewSelection.setOverview(m.getModuleCode() + ": " + m.getModuleName() + "\n" + m.getCredits() + " credits\t"
 					+ "Mandatory on the course: " + (m.isMandatory()?"Yes\t":"No\t")
 					+ "Delivery: Term 2" + "\n\n"));
+
+		}
+
+	}
+
+	private class SaveHandler implements EventHandler<ActionEvent> {
+		@Override
+		public void handle(ActionEvent event) {
+			try {
+				PrintWriter out = new PrintWriter(model.getPnumber() + ".txt");
+				out.print(overviewSelection.getOverview());
+				out.close();
+			} catch (FileNotFoundException e) {
+				alertDialogBuilder(AlertType.ERROR, "Error when trying to save to file", null, "Failed to save to file. Please try again.");
+			}
 
 		}
 
@@ -254,7 +270,7 @@ public class OptionsModuleChooserController {
 		return courses;
 	}
 
-	//helper method to build dialogs
+	// Helper method to build dialogs
 		private void alertDialogBuilder(AlertType type, String title, String header, String content) {
 			Alert alert = new Alert(type);
 			alert.setTitle(title);

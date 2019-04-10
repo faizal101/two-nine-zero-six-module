@@ -1,5 +1,7 @@
 package view;
 
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -32,5 +34,13 @@ public class OverviewSelection extends BorderPane{
 	public void setOverview(String text) {
 		this.text += text;
 		txtOverview.setText(this.text);
+	}
+
+	public String getOverview() {
+		return txtOverview.getText();
+	}
+
+	public void addSaveHandler(EventHandler<ActionEvent> handler) {
+		btnSave.setOnAction(handler);
 	}
 }
