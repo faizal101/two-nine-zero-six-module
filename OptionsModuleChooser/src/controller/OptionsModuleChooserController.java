@@ -86,21 +86,7 @@ public class OptionsModuleChooserController {
 				model.setSubmissionDate(createProfile.getDate());
 				model.setCourseOfStudy(createProfile.getSelectedCourse());
 
-				for(Module m : model.getCourseOfStudy().getAllModulesOnCourse()) {
-					if(!m.isMandatory() && m.getRunPlan() == Delivery.TERM_1) {
-						selectModules.addUnselectedModulesTerm1(m);
-					} else if(!m.isMandatory() && m.getRunPlan() == Delivery.TERM_2) {
-						selectModules.addUnselectedModulesTerm2(m);
-					} else if(m.isMandatory()) {
-						if(m.getRunPlan() == Delivery.TERM_1) {
-							selectModules.addSelectedModulesTerm1(m);
-						} else if(m.getRunPlan() == Delivery.TERM_2) {
-							selectModules.addSelectedModulesTerm2(m);
-						} else {
-							selectModules.addSelectedModulesYear(m);
-						}
-					}
-				}
+				populateListViews();
 			}
 		}
 	}
@@ -168,8 +154,8 @@ public class OptionsModuleChooserController {
 
 		@Override
 		public void handle(ActionEvent event) {
-			// TODO Auto-generated method stub
-
+			selectModules.clearAll();
+			populateListViews();
 		}
 
 	}
@@ -233,7 +219,6 @@ public class OptionsModuleChooserController {
 
 	}
 
-
 	private class SaveDataHandler implements EventHandler<ActionEvent> {
 
 		@Override
@@ -270,6 +255,7 @@ public class OptionsModuleChooserController {
 			}
 		}
 	}
+
 	private Course[] setupAndRetrieveCourses() {
 		Module imat3423 = new Module("IMAT3423", "Systems Building: Methods", 15, true, Delivery.TERM_1);
 		Module imat3451 = new Module("IMAT3451", "Computing Project", 30, true, Delivery.YEAR_LONG);
@@ -332,6 +318,33 @@ public class OptionsModuleChooserController {
 		courses[1] = softEng;
 
 		return courses;
+	}
+
+	/*
+	 * This was originally in CreateProfileHandler but decided to create a method for it since ResetHandler requires it and
+	 * that I want to try and avoid repeating code unnecessary.
+	 * Original plan was to use a forEach to add and remove the modules in the list view when the Reset button was clicked on
+	 * but that didn't exactly work (The Reset button had to be clicked on multiple times.
+	 * I'm 80% confident there's a better way to do it but at the moment, I can't think of the 'correct' way of doing it orz
+	 */
+	private void populateListViews() {
+		for(Module m : model.getCourseOfStudy().getAllModulesOnCourse()) {
+			if(!m.isMandatory()) {
+				if(m.getRunPlan() == Delivery.TERM_1) {
+					selectModules.addUnselectedModulesTerm1(m);
+				} else if(m.getRunPlan() == Delivery.TERM_2) {
+					selectModules.addUnselectedModulesTerm2(m);
+				}
+			} else {
+				if(m.getRunPlan() == Delivery.TERM_1) {
+					selectModules.addSelectedModulesTerm1(m);
+				} else if(m.getRunPlan() == Delivery.TERM_2) {
+					selectModules.addSelectedModulesTerm2(m);
+				} else {
+					selectModules.addSelectedModulesYear(m);
+				}
+			}
+		}
 	}
 
 	// Helper method to build dialogs

@@ -277,4 +277,13 @@ public class SelectModules extends BorderPane {
 		btnSubmit.setOnAction(handler);
 	}
 
+	public void clearAll() {
+		lvUnselectedTerm1.getItems().clear();
+		lvUnselectedTerm2.getItems().clear();
+		lvSelectedYear.getItems().clear();
+		lvSelectedTerm1.getItems().clear();
+		lvSelectedTerm2.getItems().clear();
+		txtTerm1Credits.setText(String.valueOf(0));
+		txtTerm2Credits.setText(String.valueOf(0));
+	}
 }
