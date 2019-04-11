@@ -40,7 +40,7 @@ public class OverviewSelection extends BorderPane{
 		return txtOverview.getText();
 	}
 
-	public void addSaveHandler(EventHandler<ActionEvent> handler) {
+	public void addSaveOverviewHandler(EventHandler<ActionEvent> handler) {
 		btnSave.setOnAction(handler);
 	}
 }

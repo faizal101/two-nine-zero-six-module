@@ -1,6 +1,11 @@
 package controller;
 
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -16,6 +21,7 @@ import model.Module;
 import model.Name;
 import model.StudentProfile;
 import view.CreateProfile;
+import view.ModuleMenuBar;
 import view.OptionsModuleChooserRootPane;
 import view.OverviewSelection;
 import view.SelectModules;
@@ -28,7 +34,7 @@ public class OptionsModuleChooserController {
 	private CreateProfile createProfile;
 	private SelectModules selectModules;
 	private OverviewSelection overviewSelection;
-
+	private ModuleMenuBar menuBar;
 
 	public OptionsModuleChooserController(OptionsModuleChooserRootPane view, StudentProfile model) {
 		// Initialise model and view fields
@@ -37,6 +43,7 @@ public class OptionsModuleChooserController {
 		createProfile = this.view.getCreateProfile();
 		selectModules = this.view.getSelectModules();
 		overviewSelection = this.view.getOverviewSelection();
+		menuBar = this.view.getMenuBar();
 
 		// Populate combo box in create profile pane
 		createProfile.populateComboBoxWithCourses(setupAndRetrieveCourses());
@@ -53,7 +60,10 @@ public class OptionsModuleChooserController {
 		selectModules.addModulesTerm2RemoveHandler(new RemoveModulesTerm2Handler());
 		selectModules.addResetHandler(new ResetHandler());
 		selectModules.addSubmitHandler(new SubmitHandler());
-		overviewSelection.addSaveHandler(new SaveHandler());
+		overviewSelection.addSaveOverviewHandler(new SaveOverviewHandler());
+		menuBar.addAboutHandler(new AboutHandler());
+		menuBar.addSaveDataHandler(new SaveDataHandler());
+		menuBar.addLoadDataHandler(new LoadDataHandler());
 	}
 
 	private class CreateProfileHandler implements EventHandler<ActionEvent> {
@@ -165,6 +175,7 @@ public class OptionsModuleChooserController {
 	}
 
 	private class SubmitHandler implements EventHandler<ActionEvent> {
+
 		@Override
 		public void handle(ActionEvent event) {
 
@@ -196,7 +207,8 @@ public class OptionsModuleChooserController {
 
 	}
 
-	private class SaveHandler implements EventHandler<ActionEvent> {
+	private class SaveOverviewHandler implements EventHandler<ActionEvent> {
+
 		@Override
 		public void handle(ActionEvent event) {
 			try {
@@ -211,6 +223,53 @@ public class OptionsModuleChooserController {
 
 	}
 
+	private class AboutHandler implements EventHandler<ActionEvent> {
+
+		@Override
+		public void handle(ActionEvent event) {
+			alertDialogBuilder(AlertType.INFORMATION, "About: ", "Options Module Chooser", "A simple program developed by faizal101\n"
+					+ "Current version: v1.0\nAll Right Reserved");
+		}
+
+	}
+
+
+	private class SaveDataHandler implements EventHandler<ActionEvent> {
+
+		@Override
+		public void handle(ActionEvent event) {
+			try {
+				ObjectOutputStream outputObject = new ObjectOutputStream(new FileOutputStream("profile.dat"));
+				outputObject.writeObject(model);
+				outputObject.flush();
+				outputObject.close();
+				alertDialogBuilder(AlertType.INFORMATION, "Saved", null, "Student profile has been saved successfully.");
+			} catch (IOException e) {
+				e.printStackTrace();
+				alertDialogBuilder(AlertType.ERROR, "ERROR", "Failed to save student profile", "Something went wrong when trying to save the student profile.\n"
+						+ "Please try again.");
+			}
+		}
+
+	}
+
+	private class LoadDataHandler implements EventHandler<ActionEvent> {
+
+		@Override
+		public void handle(ActionEvent event) {
+			try {
+				ObjectInputStream readObjectFile = new ObjectInputStream(new FileInputStream("profile.dat"));
+				model = (StudentProfile) readObjectFile.readObject();
+				readObjectFile.close();
+				alertDialogBuilder(AlertType.INFORMATION, "Loaded", null, "Student profile has been loaded successfully.");
+			} catch (FileNotFoundException e) {
+				alertDialogBuilder(AlertType.ERROR, "ERROR", null, "Could not find the student profile to load. Is it in the current directory?");
+			} catch (IOException | ClassNotFoundException e) {
+				e.printStackTrace();
+				alertDialogBuilder(AlertType.ERROR, "ERROR", null, "Something went wrong when trying to load the student profile. Please try again.");
+			}
+		}
+	}
 	private Course[] setupAndRetrieveCourses() {
 		Module imat3423 = new Module("IMAT3423", "Systems Building: Methods", 15, true, Delivery.TERM_1);
 		Module imat3451 = new Module("IMAT3451", "Computing Project", 30, true, Delivery.YEAR_LONG);

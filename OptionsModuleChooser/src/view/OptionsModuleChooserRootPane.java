@@ -7,7 +7,7 @@ import javafx.scene.layout.BorderPane;
 
 public class OptionsModuleChooserRootPane extends BorderPane {
 
-	private ModuleMenuBar menubar;
+	private ModuleMenuBar menuBar;
 	private CreateProfile createProfile;
 	private SelectModules selectModules;
 	private OverviewSelection overviewSelection;
@@ -20,14 +20,14 @@ public class OptionsModuleChooserRootPane extends BorderPane {
 		createProfile = new CreateProfile();
 		selectModules = new SelectModules();
 		overviewSelection = new OverviewSelection();
-		menubar = new ModuleMenuBar();
+		menuBar = new ModuleMenuBar();
 
 		Tab t1 = new Tab("Create Profile", createProfile);
 		Tab t2 = new Tab("Select Modules", selectModules);
 		Tab t3 = new Tab("Overview Selection", overviewSelection);
 		tabPane.getTabs().addAll(t1, t2, t3);
 
-		this.setTop(menubar);
+		this.setTop(menuBar);
 		this.setCenter(tabPane);
 
 	}
@@ -44,5 +44,9 @@ public class OptionsModuleChooserRootPane extends BorderPane {
 
 	public OverviewSelection getOverviewSelection() {
 		return overviewSelection;
+	}
+
+	public ModuleMenuBar getMenuBar() {
+		return menuBar;
 	}
 }

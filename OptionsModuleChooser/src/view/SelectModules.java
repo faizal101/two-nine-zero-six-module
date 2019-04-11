@@ -248,6 +248,7 @@ public class SelectModules extends BorderPane {
 		lvSelectedTerm1.getSelectionModel().selectAll();
 		return lvSelectedTerm1.getSelectionModel().getSelectedItems();
 	}
+
 	public ObservableList<Module> getSelectedModulesTerm2() {
 		lvSelectedTerm2.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 		lvSelectedTerm2.getSelectionModel().selectAll();

@@ -1,23 +1,24 @@
 package model;
 
+import java.io.Serializable;
 
-public class Name {
+public class Name implements Serializable {
 
 	private String firstName;
 	private String familyName;
 
-	
+
 	public Name() {
 		firstName = "";
 		familyName = "";
 	}
-	
+
 	public Name(String firstName, String familyName) {
 		this.firstName = firstName;
 		this.familyName = familyName;
 	}
 
-	
+
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
 	}
@@ -46,5 +47,5 @@ public class Name {
 	public String toString() {
 		return "Name:[firstName=" + firstName + ", familyName=" + familyName + "]";
 	}
-	
+
 }
