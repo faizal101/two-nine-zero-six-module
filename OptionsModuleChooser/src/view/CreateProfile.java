@@ -24,7 +24,7 @@ public class CreateProfile extends GridPane{
 	private DatePicker submissionDate;
 
 	public CreateProfile() {
-		//TODO: styling
+
 		this.setPadding(new Insets(80, 80, 80, 80));
 		this.setVgap(15);
 		this.setHgap(20);

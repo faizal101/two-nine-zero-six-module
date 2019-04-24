@@ -87,6 +87,7 @@ public class OptionsModuleChooserController {
 				model.setCourseOfStudy(createProfile.getSelectedCourse());
 
 				populateListViews();
+				view.switchTab(1);
 			}
 		}
 	}
@@ -189,6 +190,7 @@ public class OptionsModuleChooserController {
 					+ "Mandatory on the course: " + (m.isMandatory()?"Yes\t":"No\t")
 					+ "Delivery: Term 2" + "\n\n"));
 
+			view.switchTab(2);
 		}
 
 	}
@@ -201,6 +203,7 @@ public class OptionsModuleChooserController {
 				PrintWriter out = new PrintWriter(model.getPnumber() + ".txt");
 				out.print(overviewSelection.getOverview());
 				out.close();
+				alertDialogBuilder(AlertType.INFORMATION, "Successfully Saved", null, "Overview has successfully been saved as " + model.getPnumber() + ".txt");
 			} catch (FileNotFoundException e) {
 				alertDialogBuilder(AlertType.ERROR, "Error when trying to save to file", null, "Failed to save to file. Please try again.");
 			}

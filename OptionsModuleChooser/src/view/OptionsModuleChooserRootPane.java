@@ -49,4 +49,8 @@ public class OptionsModuleChooserRootPane extends BorderPane {
 	public ModuleMenuBar getMenuBar() {
 		return menuBar;
 	}
+
+	public void switchTab(int index) {
+		tabPane.getSelectionModel().select(index);
+	}
 }

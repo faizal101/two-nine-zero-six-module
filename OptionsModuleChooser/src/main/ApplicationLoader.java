@@ -10,25 +10,25 @@ import view.OptionsModuleChooserRootPane;
 public class ApplicationLoader extends Application {
 
 	private OptionsModuleChooserRootPane view;
-	
+
 	@Override
 	public void init() {
 		//create model and view and pass their references to the controller
 		StudentProfile model = new StudentProfile();
 		view = new OptionsModuleChooserRootPane();
-		new OptionsModuleChooserController(view, model);	
+		new OptionsModuleChooserController(view, model);
 	}
-	
+
 	@Override
 	public void start(Stage stage) throws Exception {
 		//whilst you can set a min width and height (example shown below) for the stage window,
 		//you should not set a max width or height and the application should
 		//be able to be maximised to fill the screen and ideally behave sensibly when resized
-		stage.setMinWidth(650); 
+		stage.setMinWidth(650);
 		stage.setMinHeight(600);
-		stage.setWidth(530); 
-		stage.setHeight(500);
-		
+		stage.setWidth(820);
+		stage.setHeight(700);
+
 		stage.setTitle("Final Year Module Chooser Tool");
 		stage.setScene(new Scene(view));
 		stage.show();

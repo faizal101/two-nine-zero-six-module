@@ -31,7 +31,7 @@ public class SelectModules extends BorderPane {
 	private ObservableList<Module> unselectedModulesTerm1, unselectedModulesTerm2, selectedModulesYear, selectedModulesTerm1, selectedModulesTerm2;
 
 	public SelectModules() {
-		//TODO: styling
+
 		this.setPadding(new Insets(10, 10, 5, 10));
 
 		// Create labels
